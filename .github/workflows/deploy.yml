@@ -32,7 +32,9 @@ jobs:
       - name: Build
         run: npm run build
       - name: Copy CNAME
-        run: cp CNAME dist/
+        run: |
+          echo "rocket5.ca" > dist/CNAME
+          cat dist/CNAME  # Verify content
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
