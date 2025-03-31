@@ -247,4 +247,107 @@ footer {
   .hero-content {
     padding: 0 1rem;
   }
+}
+
+/* Content Cards */
+.content-card {
+    background-color: rgba(15, 23, 42, 0.7);
+    border-left: 4px solid #ff4d4d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Titles */
+.section-title {
+    color: #ff4d4d;
+    font-family: 'Sour Gummy', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Dividers */
+.divider {
+    height: 3px;
+    width: 60px;
+    background: linear-gradient(90deg, #ff4d4d, transparent);
+}
+
+/* Icons */
+.section-icon {
+    font-size: 2rem;
+    color: #ff4d4d;
+}
+
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+    margin: 2rem 0;
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 10px;
+    background-color: rgba(30, 41, 59, 0.4);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    background-color: rgba(30, 41, 59, 0.8);
+    transform: translateY(-5px);
+}
+
+.service-item i {
+    font-size: 2rem;
+    color: #ff4d4d;
+    margin-bottom: 10px;
+}
+
+/* Contact CTA */
+.contact-cta {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(30, 41, 59, 0.4);
+    border-radius: 8px;
+}
+
+.contact-cta .btn-primary {
+    background-color: #ff4d4d;
+    border-color: #ff4d4d;
+    padding: 10px 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.contact-cta .btn-primary:hover {
+    background-color: #ff3333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
 } 

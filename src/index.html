@@ -14,6 +14,9 @@
     <!-- Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assets/css/main.css">
 </head>
@@ -70,21 +73,63 @@
 
         <!-- Main Content -->
         <main class="container my-5 section">
-            <div class="row">
+            <!-- About Us Section -->
+            <div class="row mb-5">
                 <div class="col-lg-8 mx-auto">
-                    <p class="lead">About Us</p>
-
-                    <p>Rocket 5 is an award winning game and app development studio led by Catherine Feraday Miller and Tim Miller. 
-                    Located on beautiful Amherst Island, Ontario Canada, Rocket 5 is committed to making innovative and entertaining software that can be enjoyed by children and adults alike.</p>
+                    <div class="content-card p-4 rounded shadow-sm">
+                        <h2 class="section-title">About Us</h2>
+                        <div class="divider mb-4"></div>
+                        
+                        <div class="d-flex align-items-center mb-4">
+                            <i class="bi bi-rocket-takeoff me-3 section-icon"></i>
+                            <p class="mb-0">Rocket 5 is an award winning game and app development studio led by Catherine Feraday Miller and Tim Miller. 
+                            Located on beautiful Amherst Island, Ontario Canada, Rocket 5 is committed to making innovative and entertaining software that can be enjoyed by children and adults alike.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Services Section -->
             <div class="row">
                 <div class="col-lg-8 mx-auto">
-                    <p class="lead">Let's work together</p>
-
-                    <p>Our services include: Systems, Story and Experience Design for games and interactive digital media • 3D Character art and animation • Unity 3D experts • UI and UX design • All aspects of game development including: design, code, production and product release • Project Production and Team Management • Augmented Reality and Virtual Reality game development • and more!</p>
-                    <p>Send an email to <a href="mailto:hello@rocket5studios.com">hello@rocket5studios.com</a> and let’s talk about how we can help with your next project.</p>
+                    <div class="content-card p-4 rounded shadow-sm">
+                        <h2 class="section-title">Let's work together</h2>
+                        <div class="divider mb-4"></div>
+                        
+                        <div class="services-grid">
+                            <div class="service-item">
+                                <i class="bi bi-controller"></i>
+                                <span>Game Design</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="bi bi-person-workspace"></i>
+                                <span>3D Animation</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="bi bi-unity"></i>
+                                <span>Unity 3D</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="bi bi-laptop"></i>
+                                <span>UI/UX Design</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="bi bi-code-slash"></i>
+                                <span>Development</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="bi bi-display"></i>
+                                <span>AR/VR</span>
+                            </div>
+                        </div>
+                        
+                        <p class="mt-4">Our services include: Systems, Story and Experience Design for games and interactive digital media • 3D Character art and animation • Unity 3D experts • UI and UX design • All aspects of game development including: design, code, production and product release • Project Production and Team Management • Augmented Reality and Virtual Reality game development • and more!</p>
+                        
+                        <div class="contact-cta mt-4 text-center">
+                            <a href="mailto:hello@rocket5studios.com" class="btn btn-primary">Contact Us</a>
+                            <p class="mt-2">Let's talk about how we can help with your next project.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
