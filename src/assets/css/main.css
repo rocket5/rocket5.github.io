@@ -147,6 +147,27 @@ a:hover {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+}
+
+.dropdown-item {
+  color: var(--rocket5-text);
+  padding: 8px 20px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--rocket5-text);
+}
+
 /* Navbar Logo */
 .navbar-logo {
   height: 42px;
