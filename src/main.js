@@ -1,7 +1,7 @@
 // Import our CSS
 import './assets/css/main.css';
 
-// Import our JS
+// Import our JS functions 
 import './assets/js/main.js';
 
 // This is the main entry point for our Vite application
