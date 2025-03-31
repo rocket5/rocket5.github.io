@@ -1,0 +1,25 @@
+{
+  "name": "rocket5.github.io",
+  "version": "1.0.0",
+  "description": "## Overview Rocket 5 is an award winning game and app development studio founded in 2012 by game industry veterans Catherine Feraday Miller and Tim Miller. Located in Toronto Canada, Rocket 5 is committed to making innovative and entertaining software that can be enjoyed by children and adults alike.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocket5/rocket5.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rocket5/rocket5.github.io/issues"
+  },
+  "homepage": "https://github.com/rocket5/rocket5.github.io#readme",
+  "devDependencies": {
+    "vite": "^6.2.4"
+  }
+}

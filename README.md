@@ -48,30 +48,54 @@ Strangeways is being develped with the financial support of the Ontario Media De
 At Rocket 5 we like to experiment with gameplay ideas in exciting new mediums like Augmented and Virtual Reality. These explorations are leading us down a path filled with creativity and discovery as we strive to develop the next wave of exciting interactive experiences.
 
 ## Website Development
-This repository contains the code for the Rocket 5 Studios website. The site is built using HTML, CSS, and JavaScript with Bootstrap for responsive design.
+This repository contains the code for the Rocket 5 Studios website. The site is built using HTML, CSS, and JavaScript with Bootstrap for responsive design and Vite for the build system.
 
 ### Project Structure
 ```
-www-rocket5/
-├── index.html              # Main landing page
-├── assets/                 # All static assets
-│   ├── images/             # Images for the site
-│   │   ├── logo/           # Company logos
-│   │   ├── games/          # Game screenshots/artwork
-│   │   ├── team/           # Team photos
-│   │   └── clients/        # Client logos
-│   ├── fonts/              # Custom fonts
-│   ├── icons/              # Icons for the site
-│   └── videos/             # Video content
-├── css/                    # Stylesheets
-│   └── main.css            # Main stylesheet
-├── js/                     # JavaScript files
-│   └── main.js             # Main JavaScript file
-└── pages/                  # Additional pages
+rocket5.github.io/
+├── src/                    # Source files
+│   ├── index.html          # Main landing page
+│   ├── main.js             # Main JavaScript entry point
+│   └── assets/             # Assets for the site
+│       ├── css/            # Stylesheets
+│       │   └── main.css    # Main stylesheet
+│       └── js/             # JavaScript files
+│           └── main.js     # Main JavaScript file
+├── public/                 # Static assets that will be copied to the build
+│   └── CNAME               # Custom domain configuration
+├── dist/                   # Build output (generated)
+├── .github/                # GitHub configuration
+│   └── workflows/          # GitHub Actions workflows
+│       └── deploy.yml      # Deployment workflow
+├── vite.config.js          # Vite configuration
+└── package.json            # NPM package configuration
 ```
 
 ### Development
-To view the site locally, simply open the `index.html` file in a web browser.
+To run the development server:
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### Building
+To build the site for production:
+
+```bash
+npm run build
+```
+
+This will generate the site in the `dist` directory.
 
 ### Deployment
-The site is configured to be deployed to GitHub Pages.
+The site is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment is handled by GitHub Actions using the workflow defined in `.github/workflows/deploy.yml`.
+
+You can also preview the built site locally:
+
+```bash
+npm run preview
+```
