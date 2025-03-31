@@ -37,10 +37,10 @@ body {
 
 .stars-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   transform-style: preserve-3d;
   perspective: 1800px; /* Match the JS config */
 }
@@ -48,10 +48,12 @@ body {
 /* New parent container for stars */
 .stars-parent {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   transform-style: preserve-3d;
-  transform-origin: center;
-  width: 0;
-  height: 0;
+  transform-origin: 50% 50%;
 }
 
 .star {
@@ -62,9 +64,6 @@ body {
   will-change: transform, opacity;
   transform-origin: center;
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
-  /* Center stars on their coordinates */
-  margin-left: -0.5px;
-  margin-top: -0.5px;
 }
 
 /* Header Customization */

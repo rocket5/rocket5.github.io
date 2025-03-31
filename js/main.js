@@ -49,7 +49,7 @@ function initStarfield() {
     sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 0.8,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
-    rotationSpeed: 0.01,
+    rotationSpeed: 0.001,
     perspective: 1000
   };
   
@@ -64,7 +64,19 @@ function initStarfield() {
   starsParent.style.position = 'absolute';
   starsParent.style.transformStyle = 'preserve-3d';
   starsParent.style.transform = 'translateZ(0)'; // Enable hardware acceleration
+  starsParent.style.left = '0';
+  starsParent.style.top = '0';
+  starsParent.style.width = '100%';
+  starsParent.style.height = '100%';
+  starsParent.style.transformOrigin = '50% 50%'; // Ensure rotation happens around the exact center
   starsContainer.appendChild(starsParent);
+  
+  // Update the stars container to be full viewport size rather than a point
+  starsContainer.style.top = '0';
+  starsContainer.style.left = '0';
+  starsContainer.style.width = '100%';
+  starsContainer.style.height = '100%';
+  starsContainer.style.transformOrigin = '50% 50%';
   
   // Stars array to track all stars
   let stars = [];
@@ -93,10 +105,10 @@ function initStarfield() {
     // Create star object with properties
     const starObj = {
       element: star,
-      // Original spherical coordinates
+      // Original spherical coordinates - these establish the sphere around origin (0,0,0)
       x: x * distance,
       y: y * distance,
-      z: z * distance - config.sphereRadius * 0.5, // Offset z to keep stars in front
+      z: z * distance - config.sphereRadius * 0.3, // Offset z to keep stars mostly in front
       // Random size from configured range
       size: config.minSize + Math.random() * (config.maxSize - config.minSize),
       // Random opacity
@@ -108,8 +120,11 @@ function initStarfield() {
     
     // Position star absolutely within parent
     star.style.position = 'absolute';
+    // Position from center of container
     star.style.left = '50%';
     star.style.top = '50%';
+    star.style.marginLeft = `${starObj.size/-2}px`;
+    star.style.marginTop = `${starObj.size/-2}px`;
     
     // Set star initial position directly in 3D space
     star.style.transform = `translate3d(${starObj.x}px, ${starObj.y}px, ${starObj.z}px)`;
@@ -138,7 +153,7 @@ function initStarfield() {
     // Increment rotation
     rotationY += config.rotationSpeed;
     
-    // Rotate the parent container instead of each individual star
+    // Rotate the parent container around the Y axis, centered
     starsParent.style.transform = `rotateY(${rotationY}rad)`;
     
     // Update perspective effect
@@ -152,10 +167,8 @@ function initStarfield() {
     
     // Only update opacity for stars that need it
     // We can limit this to a subset of stars or update less frequently for better performance
-    // Use requestAnimationFrame to ensure we're in sync with browser rendering
     if (stars.length > 0) {
-      // We could optimize further by only updating a subset of stars each frame
-      // or by updating less frequently
+      // We update 1/3 of stars each frame to spread processing load
       for (let i = 0; i < stars.length; i++) {
         if (i % 3 !== 0) continue; // Only update 1/3 of stars each frame
         
