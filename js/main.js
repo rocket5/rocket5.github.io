@@ -46,18 +46,34 @@ function initStarfield() {
     numStars: 1000,
     minSize: 1,
     maxSize: 4,
-    sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 0.8,
+    sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 1.2,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
-    rotationSpeed: 0.01,
+    rotationSpeed: 0.001,
     perspective: 1000,
     // Counter-rotate stars for billboarding?
-    enableBillboarding: true
+    enableBillboarding: true,
+    // Distance from camera to the starfield origin (z-distance)
+    cameraDistance: 1000,
+    // Distribution of stars (higher values cluster stars more toward the edges of the sphere)
+    distributionPower: 1,
+    // Star color options
+    starColorBase: '#ffffff',  // Base color for stars
+    starColorVariation: 0.05,  // Percentage of stars with color variation
+    starColorHueMin: 200,      // Minimum hue for colored stars
+    starColorHueMax: 240       // Maximum hue for colored stars
   };
   
   // Create a container for stars with perspective
   const starsContainer = document.createElement('div');
   starsContainer.classList.add('stars-container');
+  starsContainer.style.perspective = `${config.perspective}px`;
+  starsContainer.style.position = 'absolute';
+  starsContainer.style.top = '0';
+  starsContainer.style.left = '0';
+  starsContainer.style.width = '100%';
+  starsContainer.style.height = '100%';
+  starsContainer.style.pointerEvents = 'none';  // Ensure it doesn't interfere with page interactions
   starfield.appendChild(starsContainer);
   
   // Create a rotating parent element
@@ -65,19 +81,17 @@ function initStarfield() {
   starsParent.classList.add('stars-parent');
   starsParent.style.position = 'absolute';
   starsParent.style.transformStyle = 'preserve-3d';
-  starsParent.style.transform = 'translateZ(0)'; // Enable hardware acceleration
+  // Position the starfield origin at the configured distance from camera
+  starsParent.style.transform = `translateZ(-${config.cameraDistance}px)`;
   starsParent.style.left = '0';
   starsParent.style.top = '0';
   starsParent.style.width = '100%';
   starsParent.style.height = '100%';
   starsParent.style.transformOrigin = '50% 50%'; // Ensure rotation happens around the exact center
+  starsParent.style.pointerEvents = 'none';  // Ensure it doesn't interfere with page interactions
   starsContainer.appendChild(starsParent);
   
   // Update the stars container to be full viewport size rather than a point
-  starsContainer.style.top = '0';
-  starsContainer.style.left = '0';
-  starsContainer.style.width = '100%';
-  starsContainer.style.height = '100%';
   starsContainer.style.transformOrigin = '50% 50%';
   
   // Stars array to track all stars
@@ -92,7 +106,11 @@ function initStarfield() {
     // Calculate a random position on a sphere using spherical coordinates
     // Use the golden ratio to distribute points evenly on a sphere
     const y = 1 - (i / (config.numStars - 1)) * 2; // Range from 1 to -1
-    const radius = Math.sqrt(1 - y * y); // Radius at the given y
+    
+    // Apply distribution power to control clustering (higher values = more stars at edges)
+    const adjustedY = Math.sign(y) * Math.pow(Math.abs(y), config.distributionPower);
+    
+    const radius = Math.sqrt(1 - adjustedY * adjustedY); // Radius at the given y
     
     // Golden ratio for even distribution
     const theta = i * Math.PI * (3 - Math.sqrt(5)); // Golden angle
@@ -109,7 +127,7 @@ function initStarfield() {
       element: star,
       // Original spherical coordinates - these establish the sphere around origin (0,0,0)
       x: x * distance,
-      y: y * distance,
+      y: adjustedY * distance,
       z: z * distance - config.sphereRadius * 0.3, // Offset z to keep stars mostly in front
       // Random size from configured range
       size: config.minSize + Math.random() * (config.maxSize - config.minSize),
@@ -137,9 +155,12 @@ function initStarfield() {
     star.style.opacity = starObj.opacity;
     star.style.transformStyle = 'preserve-3d'; // Ensure 3D rendering
     
-    // Occasional subtle color variation (blue tint)
-    if (Math.random() > 0.95) {
-      const hue = 200 + Math.random() * 40; 
+    // Apply base color
+    star.style.backgroundColor = config.starColorBase;
+    
+    // Occasional subtle color variation 
+    if (Math.random() < config.starColorVariation) {
+      const hue = config.starColorHueMin + Math.random() * (config.starColorHueMax - config.starColorHueMin); 
       star.style.backgroundColor = `hsl(${hue}, 80%, 85%)`;
     }
     
@@ -157,10 +178,8 @@ function initStarfield() {
     rotationY += config.rotationSpeed;
     
     // Rotate the parent container around the Y axis, centered
-    starsParent.style.transform = `rotateY(${rotationY}rad)`;
-    
-    // Update perspective effect
-    starsContainer.style.perspective = `${config.perspective}px`;
+    // Maintain the z-distance from the camera during rotation
+    starsParent.style.transform = `translateZ(-${config.cameraDistance}px) rotateY(${rotationY}rad)`;
     
     // Update star visibility and billboarding
     const cosY = Math.cos(rotationY);
@@ -186,6 +205,7 @@ function initStarfield() {
         // Update opacity on a subset of stars
         if (i % opacityChunkSize === frameOffset % opacityChunkSize) {
           // Update star visibility based on z position
+          // Factor in the camera distance to ensure proper visibility calculations
           const normalizedZ = (rotatedZ + config.sphereRadius) / (config.sphereRadius * 2);
           const computedOpacity = star.opacity * (normalizedZ < 0.5 ? normalizedZ * 2 : 1);
           star.element.style.opacity = computedOpacity;
@@ -210,8 +230,11 @@ function initStarfield() {
     // Update sphere radius on resize
     config.sphereRadius = Math.max(window.innerWidth, window.innerHeight) * 0.8;
     
-    // Update perspective on resize
+    // Reapply perspective and camera distance on resize
     starsContainer.style.perspective = `${config.perspective}px`;
+    
+    // Maintain the camera distance and current rotation
+    starsParent.style.transform = `translateZ(-${config.cameraDistance}px) rotateY(${rotationY}rad)`;
   });
   
   // Cleanup on page hidden/unload

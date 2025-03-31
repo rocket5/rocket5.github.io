@@ -33,6 +33,7 @@ body {
   overflow: hidden;
   background-color: #000;
   perspective: 1000px;
+  pointer-events: none; /* Ensure it doesn't interfere with page interaction */
 }
 
 .stars-container {
@@ -43,6 +44,7 @@ body {
   height: 100%;
   transform-style: preserve-3d;
   perspective: 1800px; /* Match the JS config */
+  pointer-events: none; /* Ensure it doesn't catch mouse events */
 }
 
 /* New parent container for stars */
@@ -54,6 +56,7 @@ body {
   height: 100%;
   transform-style: preserve-3d;
   transform-origin: 50% 50%;
+  pointer-events: none; /* Ensure it doesn't catch mouse events */
 }
 
 .star {
@@ -169,4 +172,11 @@ footer {
   h1.display-4 {
     font-size: 2.5rem;
   }
+}
+
+/* Add a new container for page content that can scroll independently */
+.page-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
 } 
