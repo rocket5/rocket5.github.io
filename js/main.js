@@ -38,6 +38,15 @@ function initStarfield() {
   const starfield = document.querySelector('.starfield');
   if (!starfield) return;
   
+  // Ensure starfield is properly fixed
+  starfield.style.position = 'fixed';
+  starfield.style.top = '0';
+  starfield.style.left = '0';
+  starfield.style.width = '100%';
+  starfield.style.height = '100%';
+  starfield.style.zIndex = '0';
+  starfield.style.pointerEvents = 'none';
+  
   // Clear any existing stars
   starfield.innerHTML = '';
   
@@ -73,7 +82,7 @@ function initStarfield() {
   starsContainer.style.left = '0';
   starsContainer.style.width = '100%';
   starsContainer.style.height = '100%';
-  starsContainer.style.pointerEvents = 'none';  // Ensure it doesn't interfere with page interactions
+  starsContainer.style.pointerEvents = 'none';
   starfield.appendChild(starsContainer);
   
   // Create a rotating parent element
