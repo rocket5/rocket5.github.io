@@ -13,7 +13,8 @@ export default defineConfig({
         main: resolve(__dirname, 'src/index.html'),
       },
     },
-    assetsInlineLimit: 0
+    assetsInlineLimit: 0,
+    copyPublicDir: true,
   },
   server: {
     open: true
