@@ -45,7 +45,7 @@
                             <a class="nav-link" href="#about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="#contact">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -139,10 +139,55 @@
                         
                         <p class="mt-4">Our services include: Systems, Story and Experience Design for games and interactive digital media • 3D Character art and animation • Unity 3D experts • UI and UX design • All aspects of game development including: design, code, production and product release • Project Production and Team Management • Augmented Reality and Virtual Reality game development • and more!</p>
                         
-                        <div class="contact-cta mt-4 text-center">
-                            <a href="mailto:hello@rocket5studios.com" class="btn btn-primary">Contact Us</a>
-                            <p class="mt-2">Let's talk about how we can help with your next project.</p>
-                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form Section -->
+            <div class="row mt-5" id="contact">
+                <div class="col-lg-8 mx-auto">
+                    <div class="content-card p-4 rounded shadow-sm">
+                        <h2 class="section-title">Let's Get Started</h2>
+                        <div class="divider mb-4"></div>
+                        <p class="mb-4">Tell us a little bit about yourself and your project and we'll get back to you as soon as possible.</p>
+                        
+                        <form id="contactForm" action="https://formsubmit.co/hello@rocket5studios.com" method="POST">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Your Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Company Website</label>
+                                <input type="url" class="form-control" id="website" name="website">
+                            </div>
+                            <div class="mb-3">
+                                <label for="vision" class="form-label">Project Vision</label>
+                                <textarea class="form-control" id="vision" name="vision" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="source" class="form-label">Where Did You Hear About Us?</label>
+                                <select class="form-select" id="source" name="source">
+                                    <option value="" selected>Please select</option>
+                                    <option value="search">Search Engine</option>
+                                    <option value="social">Social Media</option>
+                                    <option value="referral">Referral</option>
+                                    <option value="conference">Conference or Event</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                            </div>
+                            <!-- Hidden inputs for FormSubmit configuration -->
+                            <input type="hidden" name="_subject" value="New contact from Rocket 5 website">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_next" value="https://rocket5.github.io/thank-you.html">
+                        </form>
+                        <!-- <p class="mt-3 text-center small">By submitting this form, you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p> -->
                     </div>
                 </div>
             </div>
@@ -154,7 +199,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 d-flex align-items-center mb-3 mb-md-0">
                         <img src="./assets/images/r5-logo-square.png" alt="Rocket 5 Studios Logo" class="footer-logo me-3" style="width: 48px; height: auto;">
-                        <p class="mb-0">© 2024 Rocket 5 Studios.</br> All rights reserved.</p>
+                        <p class="mb-0">© 2024 Rocket 5 Studios.</br> All rights reserved. <a href="privacy-policy.html" class="text-white text-decoration-underline">Privacy Policy</a></p>
                     </div>
                     <div class="col-md-6">
                         <div class="social-links d-flex justify-content-md-end justify-content-center">
