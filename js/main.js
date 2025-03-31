@@ -43,20 +43,28 @@ function initStarfield() {
   
   // Configuration
   const config = {
-    numStars: 3000,
+    numStars: 1000,
     minSize: 1,
     maxSize: 4,
     sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 0.8,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
-    rotationSpeed: 0.001,
-    perspective: 1800
+    rotationSpeed: 0.01,
+    perspective: 1000
   };
   
   // Create a container for stars with perspective
   const starsContainer = document.createElement('div');
   starsContainer.classList.add('stars-container');
   starfield.appendChild(starsContainer);
+  
+  // Create a rotating parent element
+  const starsParent = document.createElement('div');
+  starsParent.classList.add('stars-parent');
+  starsParent.style.position = 'absolute';
+  starsParent.style.transformStyle = 'preserve-3d';
+  starsParent.style.transform = 'translateZ(0)'; // Enable hardware acceleration
+  starsContainer.appendChild(starsParent);
   
   // Stars array to track all stars
   let stars = [];
@@ -98,11 +106,27 @@ function initStarfield() {
     // Add to our stars array
     stars.push(starObj);
     
-    // Add star to the DOM
-    starsContainer.appendChild(star);
+    // Position star absolutely within parent
+    star.style.position = 'absolute';
+    star.style.left = '50%';
+    star.style.top = '50%';
     
-    // Apply initial star styling
-    updateStarStyle(starObj, config);
+    // Set star initial position directly in 3D space
+    star.style.transform = `translate3d(${starObj.x}px, ${starObj.y}px, ${starObj.z}px)`;
+    
+    // Apply star styles
+    star.style.width = `${starObj.size}px`;
+    star.style.height = `${starObj.size}px`;
+    star.style.opacity = starObj.opacity;
+    
+    // Occasional subtle color variation (blue tint)
+    if (Math.random() > 0.95) {
+      const hue = 200 + Math.random() * 40; 
+      star.style.backgroundColor = `hsl(${hue}, 80%, 85%)`;
+    }
+    
+    // Add star to the parent container
+    starsParent.appendChild(star);
   }
   
   // Track rotation
@@ -114,28 +138,38 @@ function initStarfield() {
     // Increment rotation
     rotationY += config.rotationSpeed;
     
-    // Update each star position with rotation
-    stars.forEach(star => {
-      // Apply rotation around Y axis (vertical axis)
-      const cosY = Math.cos(rotationY);
-      const sinY = Math.sin(rotationY);
-      
-      // Rotate around Y axis
-      const rotatedX = star.x * cosY - star.z * sinY;
-      const rotatedZ = star.x * sinY + star.z * cosY;
-      
-      // Update star position with rotated coordinates
-      star.element.style.transform = transformStar(rotatedX, star.y, rotatedZ, config);
-      
-      // Update star visibility based on z position
-      // Stars moving behind the viewer should be less visible
-      const normalizedZ = (rotatedZ + config.sphereRadius) / (config.sphereRadius * 2);
-      const computedOpacity = star.opacity * (normalizedZ < 0.5 ? 
-                                             normalizedZ * 2 : 
-                                             1);
-      
-      star.element.style.opacity = computedOpacity;
-    });
+    // Rotate the parent container instead of each individual star
+    starsParent.style.transform = `rotateY(${rotationY}rad)`;
+    
+    // Update perspective effect
+    starsContainer.style.perspective = `${config.perspective}px`;
+    
+    // Update star visibility based on rotation
+    // This is more efficient than the previous approach, as we only need
+    // to calculate sine and cosine once per frame, not per star
+    const cosY = Math.cos(rotationY);
+    const sinY = Math.sin(rotationY);
+    
+    // Only update opacity for stars that need it
+    // We can limit this to a subset of stars or update less frequently for better performance
+    // Use requestAnimationFrame to ensure we're in sync with browser rendering
+    if (stars.length > 0) {
+      // We could optimize further by only updating a subset of stars each frame
+      // or by updating less frequently
+      for (let i = 0; i < stars.length; i++) {
+        if (i % 3 !== 0) continue; // Only update 1/3 of stars each frame
+        
+        const star = stars[i];
+        // Calculate rotated Z position
+        const rotatedZ = star.x * sinY + star.z * cosY;
+        
+        // Update star visibility based on z position
+        const normalizedZ = (rotatedZ + config.sphereRadius) / (config.sphereRadius * 2);
+        const computedOpacity = star.opacity * (normalizedZ < 0.5 ? normalizedZ * 2 : 1);
+        
+        star.element.style.opacity = computedOpacity;
+      }
+    }
     
     animationFrame = requestAnimationFrame(animate);
   }
@@ -148,10 +182,8 @@ function initStarfield() {
     // Update sphere radius on resize
     config.sphereRadius = Math.max(window.innerWidth, window.innerHeight) * 0.8;
     
-    // Update stars positions
-    stars.forEach(star => {
-      updateStarStyle(star, config);
-    });
+    // Update perspective on resize
+    starsContainer.style.perspective = `${config.perspective}px`;
   });
   
   // Cleanup on page hidden/unload
@@ -164,7 +196,7 @@ function initStarfield() {
   });
 }
 
-// Helper function to position a star with 3D transform
+// Helper function to position a star with 3D transform - kept for reference
 function transformStar(x, y, z, config) {
   // Apply perspective projection
   const scale = config.perspective / (config.perspective - z);
@@ -174,7 +206,7 @@ function transformStar(x, y, z, config) {
   return `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 }
 
-// Apply styles to a star based on its properties
+// This function is no longer used in the optimized version
 function updateStarStyle(star, config) {
   // Star position with perspective
   star.element.style.transform = transformStar(star.x, star.y, star.z, config);
