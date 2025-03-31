@@ -350,4 +350,47 @@ footer {
     .services-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Form Styles */
+.form-control, .form-select {
+  background-color: black;
+  color: white;
+  border-color: #444;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: black;
+  color: white;
+  border-color: var(--rocket5-blue);
+  box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.25);
+}
+
+/* Form placeholder colors */
+.form-control::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+
+/* Form select option colors */
+.form-select option {
+  background-color: black;
+  color: white;
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #ff4d4d;
+  border-color: #ff4d4d;
+  color: white;
+  font-weight: 600;
+  padding: 10px 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: #ff3333;
+  border-color: #ff3333;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
 } 
