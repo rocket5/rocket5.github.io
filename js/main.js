@@ -49,8 +49,10 @@ function initStarfield() {
     sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 0.8,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
-    rotationSpeed: 0.001,
-    perspective: 1000
+    rotationSpeed: 0.01,
+    perspective: 1000,
+    // Counter-rotate stars for billboarding?
+    enableBillboarding: true
   };
   
   // Create a container for stars with perspective
@@ -126,13 +128,14 @@ function initStarfield() {
     star.style.marginLeft = `${starObj.size/-2}px`;
     star.style.marginTop = `${starObj.size/-2}px`;
     
-    // Set star initial position directly in 3D space
+    // Set star initial position directly in 3D space (without rotation yet)
     star.style.transform = `translate3d(${starObj.x}px, ${starObj.y}px, ${starObj.z}px)`;
     
     // Apply star styles
     star.style.width = `${starObj.size}px`;
     star.style.height = `${starObj.size}px`;
     star.style.opacity = starObj.opacity;
+    star.style.transformStyle = 'preserve-3d'; // Ensure 3D rendering
     
     // Occasional subtle color variation (blue tint)
     if (Math.random() > 0.95) {
@@ -159,28 +162,40 @@ function initStarfield() {
     // Update perspective effect
     starsContainer.style.perspective = `${config.perspective}px`;
     
-    // Update star visibility based on rotation
-    // This is more efficient than the previous approach, as we only need
-    // to calculate sine and cosine once per frame, not per star
+    // Update star visibility and billboarding
     const cosY = Math.cos(rotationY);
     const sinY = Math.sin(rotationY);
     
-    // Only update opacity for stars that need it
-    // We can limit this to a subset of stars or update less frequently for better performance
+    // Only process a subset of stars each frame for better performance
     if (stars.length > 0) {
-      // We update 1/3 of stars each frame to spread processing load
+      // We update stars in chunks for better performance
+      // Using a different chunk size for opacity updates vs. billboarding
+      // Billboarding is more performance intensive
+      const opacityChunkSize = 3; // Update 1/3 of stars' opacity each frame
+      const billboardChunkSize = config.enableBillboarding ? 5 : 0; // Update 1/5 of stars' billboarding each frame if enabled
+      
+      const frameOffset = Math.floor(Math.random() * 10); // Randomize which stars get updated to avoid visible patterns
+      
       for (let i = 0; i < stars.length; i++) {
-        if (i % 3 !== 0) continue; // Only update 1/3 of stars each frame
-        
         const star = stars[i];
-        // Calculate rotated Z position
+        
+        // Calculate rotated positions only once for both operations
         const rotatedZ = star.x * sinY + star.z * cosY;
+        const rotatedX = star.x * cosY - star.z * sinY;
         
-        // Update star visibility based on z position
-        const normalizedZ = (rotatedZ + config.sphereRadius) / (config.sphereRadius * 2);
-        const computedOpacity = star.opacity * (normalizedZ < 0.5 ? normalizedZ * 2 : 1);
+        // Update opacity on a subset of stars
+        if (i % opacityChunkSize === frameOffset % opacityChunkSize) {
+          // Update star visibility based on z position
+          const normalizedZ = (rotatedZ + config.sphereRadius) / (config.sphereRadius * 2);
+          const computedOpacity = star.opacity * (normalizedZ < 0.5 ? normalizedZ * 2 : 1);
+          star.element.style.opacity = computedOpacity;
+        }
         
-        star.element.style.opacity = computedOpacity;
+        // Apply billboarding on a different subset of stars
+        if (config.enableBillboarding && i % billboardChunkSize === frameOffset % billboardChunkSize) {
+          // Apply counter-rotation for billboarding effect
+          star.element.style.transform = `translate3d(${star.x}px, ${star.y}px, ${star.z}px) rotateY(${-rotationY}rad)`;
+        }
       }
     }
     
