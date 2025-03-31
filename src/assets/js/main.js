@@ -6,11 +6,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Rocket 5 Studios website loaded');
   
-  // Create starfield
+  // Create starfield - Make sure starfield gets initialized first
   initStarfield();
-  
-  // Initialize typing animation
-  initTypingAnimation();
   
   // Enable Bootstrap tooltips
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -36,7 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Spherical Rotating Starfield
 function initStarfield() {
   const starfield = document.querySelector('.starfield');
-  if (!starfield) return;
+  if (!starfield) {
+    console.error('Starfield element not found!');
+    return;
+  }
   
   // Ensure starfield is properly fixed
   starfield.style.position = 'fixed';
@@ -46,11 +46,12 @@ function initStarfield() {
   starfield.style.height = '100%';
   starfield.style.zIndex = '0';
   starfield.style.pointerEvents = 'none';
+  starfield.style.opacity = '1';
   
   // Clear any existing stars
   starfield.innerHTML = '';
   
-  // Configuration
+  // Configuration - Increase number of stars and size
   const config = {
     numStars: 1000,
     minSize: 1,
@@ -58,7 +59,7 @@ function initStarfield() {
     sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 1.2,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
-    rotationSpeed: 0.001,
+    rotationSpeed: 0.0005,
     perspective: 1000,
     // Counter-rotate stars for billboarding?
     enableBillboarding: true,
@@ -68,9 +69,9 @@ function initStarfield() {
     distributionPower: 1,
     // Star color options
     starColorBase: '#ffffff',  // Base color for stars
-    starColorVariation: 0.05,  // Percentage of stars with color variation
+    starColorVariation: 0.15,  // Increased from 0.05 - more colored stars
     starColorHueMin: 200,      // Minimum hue for colored stars
-    starColorHueMax: 240       // Maximum hue for colored stars
+    starColorHueMax: 255       // Maximum hue for colored stars
   };
   
   // Create a container for stars with perspective
@@ -140,8 +141,8 @@ function initStarfield() {
       z: z * distance - config.sphereRadius * 0.3, // Offset z to keep stars mostly in front
       // Random size from configured range
       size: config.minSize + Math.random() * (config.maxSize - config.minSize),
-      // Random opacity
-      opacity: 0.1 + Math.random() * 0.5
+      // Increased opacity for better visibility
+      opacity: 0.4 + Math.random() * 0.6
     };
     
     // Add to our stars array

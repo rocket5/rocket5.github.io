@@ -1,6 +1,12 @@
 # Rocket 5 Studios
 ### Makers of innovative and entertaining experiences.
 
+## Welcome
+Welcome to Rocket 5. We're making innovative and entertaining software and products with an emphasasis on art, culture, sustainability and nature for you to enjoy.
+
+### Tagline
+
+
 ## Overview
 Rocket 5 is an award winning game and app development studio founded in 2012 by game industry veterans Catherine Feraday Miller and Tim Miller. Located in Toronto Canada, Rocket 5 is committed to making innovative and entertaining software that can be enjoyed by children and adults alike.
 
@@ -99,3 +105,19 @@ You can also preview the built site locally:
 ```bash
 npm run preview
 ```
+
+### Starfield Background
+The website features an immersive 3D starfield background created using JavaScript and CSS. The starfield creates a spherical, rotating galaxy effect with the following features:
+
+- 3D spherical distribution of 1000 stars using the golden ratio for even placement
+- Smooth rotation animation with performance optimization
+- Dynamic star sizes (1-4px) and varying opacity
+- Occasional blue-tinted stars for visual interest
+- Responsive design that adapts to viewport changes
+- Billboarding effect to maintain star visibility during rotation
+- Performance optimizations including:
+  - Chunked updates to stars (not all stars update every frame)
+  - Animation pausing when tab is not visible
+  - Pointer events disabled to ensure it doesn't interfere with page interactions
+
+The starfield implementation is located in `src/assets/js/main.js` (initStarfield function) with supporting CSS in `src/assets/css/main.css`.
