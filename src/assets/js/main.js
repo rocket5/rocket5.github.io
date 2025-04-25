@@ -53,9 +53,9 @@ function initStarfield() {
   
   // Configuration - Increase number of stars and size
   const config = {
-    numStars: 1000,
-    minSize: 1,
-    maxSize: 4,
+    numStars: 500,
+    minSize: 6,
+    maxSize: 10,
     sphereRadius: Math.max(window.innerWidth, window.innerHeight) * 1.2,
     // Keep a minimum distance from center to avoid stars passing too close to camera
     minDistanceFromCenter: 300,
